@@ -1,0 +1,61 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "#fff",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "targets": [
+        {
+          "expr": "sum(rate(cloudgallery_request_count[1m])) by (endpoint)",
+          "legendFormat": "{{endpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Requests per second (by endpoint)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 9, "w": 12, "x": 0, "y": 9},
+      "id": 2,
+      "targets": [
+        {"expr": "sum(rate(cloudgallery_request_latency_seconds_sum[1m])) / sum(rate(cloudgallery_request_latency_seconds_count[1m]))", "refId": "A"}
+      ],
+      "title": "Average Request Latency (s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 9, "w": 12, "x": 12, "y": 9},
+      "id": 3,
+      "targets": [
+        {"expr": "process_resident_memory_bytes", "refId": "A"}
+      ],
+      "title": "Backend Memory (bytes)",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 30,
+  "title": "CloudGallery Overview",
+  "uid": "cloudgallery-overview",
+  "version": 1
+}
