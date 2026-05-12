@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5005:5005"
+    environment:
+      - CLOUDGALLERY_BUCKET=${CLOUDGALLERY_BUCKET}
+      - CLOUDGALLERY_REGION=${CLOUDGALLERY_REGION}
+      - CLOUDGALLERY_PRESIGNED=${CLOUDGALLERY_PRESIGNED}
+    # Allow the container to pick up credentials from a mounted ~/.aws or from env vars in .env
+    env_file:
+      - .env
+    volumes:
+      - ${HOME}/.aws:/root/.aws:ro
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
