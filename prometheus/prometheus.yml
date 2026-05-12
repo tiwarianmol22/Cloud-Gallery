@@ -1,0 +1,18 @@
+# after a scrape
+curl -s 'http://localhost:9090/api/v1/series?match[]=cloudgallery_request_count' | jq .global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'cloudgallery'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['backend:5005', 'host.docker.internal:5005']
+
+  # Optional: scrape backend on the host (useful when backend runs on host instead of container).
+  # If you are using Podman on macOS and Prometheus cannot reach 'backend:5005',
+  # Prometheus will also try to scrape host.docker.internal:5005. Adjust as needed.
